@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cee4ev Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      width: 48%;
+      padding: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    input {
+      width: 60%;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 24px;
+    }
+
+    .active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .tnb-cost {
+      margin-top: 20px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .separator {
+      width: 100%;
+      height: 1px;
+      background-color: #ccc;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .buttons {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="buttons">
+      <button id="nonCee4ev" class="active">Non Cee4ev Member</button>
+      <button id="cee4ev">Cee4ev Member</button>
+    </div>
+    <div class="input-group">
+      <input type="number" id="usage" placeholder="Usage in kWh">
+      <span>kWh</span>
+    </div>
+    <div class="result">
+      Customer will pay RM <span id="resultValue">0</span>
+    </div>
+    <div class="separator"></div>
+    <div class="tnb-cost">
+      Cost from TNB is RM <span id="tnbCost">0</span>
+    </div>
+  </div>
+
+   <script>
+    const nonCee4evButton = document.getElementById('nonCee4ev');
+    const cee4evButton = document.getElementById('cee4ev');
+    const usageInput = document.getElementById('usage');
+    const resultValue = document.getElementById('resultValue');
+    const tnbCost = document.getElementById('tnbCost');
+
+    let selectedMembership = 'nonCee4ev';
+
+    nonCee4evButton.addEventListener('click', () => {
+      selectedMembership = 'nonCee4ev';
+      nonCee4evButton.classList.add('active');
+      cee4evButton.classList.remove('active');
+      calculate();
+    });
+
+    cee4evButton.addEventListener('click', () => {
+      selectedMembership = 'cee4ev';
+      cee4evButton.classList.add('active');
+      nonCee4evButton.classList.remove('active');
+      calculate();
+    });
+
+    usageInput.addEventListener('input', () => {
+      calculate();
+    });
+
+    function calculate() {
+      const usage = parseFloat(usageInput.value);
+      if (isNaN(usage)) {
+        resultValue.textContent = '0';
+        tnbCost.textContent = '0';
+        return;
+      }
+      const price = selectedMembership === 'cee4ev' ? 0.6363 : 1;
+      const result = usage * price;
+      resultValue.textContent = result.toFixed(2);
+
+      const tnbPrice = 0.509;
+      const tnbResult = usage * tnbPrice;
+      tnbCost.textContent = tnbResult.toFixed(2);
+    }
+  </script>
+</body>
+</html>
