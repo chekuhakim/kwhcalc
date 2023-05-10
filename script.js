@@ -2,8 +2,8 @@ const usageElement = document.getElementById("usage");
 const resultValueElement = document.getElementById("resultValue");
 const tnbCostElement = document.getElementById("tnbCost");
 
-const memberRate = 0.218;
-const nonMemberRate = 0.5;
+const memberRate = 0.6363;
+const nonMemberRate = 1;
 const tnbRate = 0.57;
 
 const phoneNumberList = [
@@ -12,7 +12,10 @@ const phoneNumberList = [
   // Add more phone numbers here as needed
 ];
 
+const phoneInputElement = document.getElementById("phoneInput");
+
 usageElement.addEventListener("input", updateCost);
+phoneInputElement.addEventListener("input", updateCost);
 
 function updateCost() {
   const usage = parseFloat(usageElement.value);
@@ -23,7 +26,7 @@ function updateCost() {
     return;
   }
 
-  const phoneNumber = document.getElementById("phoneInput").value;
+  const phoneNumber = phoneInputElement.value;
   const rate = phoneNumberList.includes(phoneNumber) ? memberRate : nonMemberRate;
   const cost = usage * rate;
   const tnbCost = usage * tnbRate;
