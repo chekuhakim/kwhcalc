@@ -4,17 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cee4ev Calculator</title>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <style>
+    :root {
+      font-family: 'Inter', sans-serif;
+    }
+    @supports (font-variation-settings: normal) {
+      :root {
+        font-family: 'Inter var', sans-serif;
+      }
+    }
+
     body {
       font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
       padding: 0;
+      background: #111;
+      color: #eee;
     }
-    
+
     .container {
       width: 90%;
       max-width: 500px;
@@ -50,6 +63,51 @@
       background-color: #ccc;
       margin-top: 20px;
     }
+
+    /* Custom animation div */
+    div.custom-animation {
+      width: 600px;
+      height: 100px;
+      position: relative;
+      border-radius: 50px;
+      cursor: pointer;
+      background: conic-gradient(from calc(var(--r2) - 55deg) at var(--x) 50px, #222 0%, #fff 5%, #fff 25%, #222 30%);
+      animation: -0.64s rotating2 3s linear infinite, -0.64s x 3s linear infinite;
+    }
+    @keyframes x {
+      0% {
+        --x: 50px;
+      }
+      42.8571428571% {
+        --x: 550px;
+      }
+      50% {
+        --x: 550px;
+      }
+      92.8571428571% {
+        --x: 50px;
+      }
+      100% {
+        --x: 50px;
+      }
+    }
+    @keyframes rotating2 {
+      0% {
+        --r2: 0deg;
+      }
+      42.8571428571% {
+        --r2: 0deg;
+      }
+      50% {
+        --r2: 180deg;
+      }
+      92.8571428571% {
+        --r2: 180deg;
+      }
+      100% {
+        --r2: 360deg;
+      }
+    }
   </style>
 </head>
 <body>
@@ -59,7 +117,7 @@
     </div>
     <div class="input-group">
       <input type="number" id="usage" placeholder="Usage in kWh">
-      <span>kWh</span>
+ <span>kWh</span>
     </div>
     <div class="result">
       Customer will pay RM <span id="resultValue">0</span>
@@ -69,6 +127,9 @@
       Cost from TNB is RM <span id="tnbCost">0</span>
     </div>
   </div>
+  
+  <!-- Custom animation div -->
+  <div class="custom-animation"></div>
 
   <script>
     const phoneNumberInput = document.getElementById('phoneNumber');
@@ -76,7 +137,7 @@
     const resultValue = document.getElementById('resultValue');
     const tnbCost = document.getElementById('tnbCost');
 
-    const memberPhoneNumbers = {
+ const memberPhoneNumbers = {
       "0162081872": true,
       "0123614728": true,
        "01111276266": true,
@@ -98,14 +159,16 @@
     });
 
     function calculate() {
-      const phoneNumber = phoneNumberInput.value;
       const usage = parseFloat(usageInput.value);
+      const phoneNumber = phoneNumberInput.value;
+      const isMember = members.hasOwnProperty(phoneNumber);
+
       if (isNaN(usage)) {
         resultValue.textContent = '0';
         tnbCost.textContent = '0';
         return;
       }
-      const isMember = memberPhoneNumbers.hasOwnProperty(phoneNumber);
+
       const price = isMember ? 0.6363 : 1;
       const result = usage * price;
       resultValue.textContent = result.toFixed(2);
