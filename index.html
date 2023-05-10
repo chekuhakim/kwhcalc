@@ -20,18 +20,6 @@
       max-width: 500px;
     }
 
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    button {
-      width: 48%;
-      padding: 10px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
     .input-group {
       display: flex;
       justify-content: space-between;
@@ -50,11 +38,6 @@
       font-size: 24px;
     }
 
-    .active {
-      background-color: #4CAF50;
-      color: white;
-    }
-
     .tnb-cost {
       margin-top: 20px;
       font-size: 14px;
@@ -67,24 +50,12 @@
       background-color: #ccc;
       margin-top: 20px;
     }
-
-    @media (max-width: 768px) {
-      .buttons {
-        flex-direction: column;
-      }
-
-      button {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="buttons">
-      <button id="nonCee4ev" class="active">Non Cee4ev Member</button>
-      <button id="cee4ev">Cee4ev Member</button>
+    <div class="input-group">
+      <input type="text" id="phoneNumber" placeholder="Phone number">
     </div>
     <div class="input-group">
       <input type="number" id="usage" placeholder="Usage in kWh">
@@ -99,26 +70,26 @@
     </div>
   </div>
 
-   <script>
-    const nonCee4evButton = document.getElementById('nonCee4ev');
-    const cee4evButton = document.getElementById('cee4ev');
+  <script>
+    const phoneNumberInput = document.getElementById('phoneNumber');
     const usageInput = document.getElementById('usage');
     const resultValue = document.getElementById('resultValue');
     const tnbCost = document.getElementById('tnbCost');
 
-    let selectedMembership = 'nonCee4ev';
+    const memberPhoneNumbers = {
+      "0162081872": true,
+      "0123614728": true,
+       "01111276266": true,
+      "0197978595": true,
+       "01116429932": true,
+      "0192831539": true,
+"0197978595": true,
+       "0122809550": true,
+      "0104397725": true
+      // Add more phone numbers as needed
+    };
 
-    nonCee4evButton.addEventListener('click', () => {
-      selectedMembership = 'nonCee4ev';
-      nonCee4evButton.classList.add('active');
-      cee4evButton.classList.remove('active');
-      calculate();
-    });
-
-    cee4evButton.addEventListener('click', () => {
-      selectedMembership = 'cee4ev';
-      cee4evButton.classList.add('active');
-      nonCee4evButton.classList.remove('active');
+    phoneNumberInput.addEventListener('input', () => {
       calculate();
     });
 
@@ -127,13 +98,15 @@
     });
 
     function calculate() {
+      const phoneNumber = phoneNumberInput.value;
       const usage = parseFloat(usageInput.value);
       if (isNaN(usage)) {
         resultValue.textContent = '0';
         tnbCost.textContent = '0';
         return;
       }
-      const price = selectedMembership === 'cee4ev' ? 0.6363 : 1;
+      const isMember = memberPhoneNumbers.hasOwnProperty(phoneNumber);
+      const price = isMember ? 0.6363 : 1;
       const result = usage * price;
       resultValue.textContent = result.toFixed(2);
 
