@@ -1,42 +1,33 @@
-const phoneNumberInput = document.getElementById("phoneNumber");
-const usageInput = document.getElementById("usage");
-const resultValue = document.getElementById("resultValue");
-const tnbCost = document.getElementById("tnbCost");
-const printBtn = document.getElementById("printBtn");
+const usageElement = document.getElementById("usage");
+const resultValueElement = document.getElementById("resultValue");
+const tnbCostElement = document.getElementById("tnbCost");
 
-const memberPhoneNumbers = {
-  "1234567890": true,
-  "0987654321": true,
-  // Add more phone numbers here
-};
+const memberRate = 0.218;
+const nonMemberRate = 0.5;
+const tnbRate = 0.57;
 
-phoneNumberInput.addEventListener("input", () => {
-  calculate();
-});
+const phoneNumberList = [
+  "1234567890",
+  "0987654321",
+  // Add more phone numbers here as needed
+];
 
-usageInput.addEventListener("input", () => {
-  calculate();
-});
+usageElement.addEventListener("input", updateCost);
 
-printBtn.addEventListener("click", () => {
-  window.print();
-});
+function updateCost() {
+  const usage = parseFloat(usageElement.value);
 
-function calculate() {
-  const phoneNumber = phoneNumberInput.value;
-  const usage = parseFloat(usageInput.value);
   if (isNaN(usage)) {
-    resultValue.textContent = "0";
-    tnbCost.textContent = "0";
+    resultValueElement.textContent = "0";
+    tnbCostElement.textContent = "0";
     return;
   }
 
-  const isMember = memberPhoneNumbers[phoneNumber] === true;
-  const price = isMember ? 0.6363 : 1;
-  const result = usage * price;
-  resultValue.textContent = result.toFixed(2);
+  const phoneNumber = document.getElementById("phoneInput").value;
+  const rate = phoneNumberList.includes(phoneNumber) ? memberRate : nonMemberRate;
+  const cost = usage * rate;
+  const tnbCost = usage * tnbRate;
 
-  const tnbPrice = 0.509;
-  const tnbResult = usage * tnbPrice;
-  tnbCost.textContent = tnbResult.toFixed(2);
+  resultValueElement.textContent = cost.toFixed(2);
+  tnbCostElement.textContent = tnbCost.toFixed(2);
 }
