@@ -25,7 +25,7 @@
     <div class="tnb-cost">
       Cost by TNB: RM <span id="tnbCost">0</span>
     </div>
-    <div class="print-btn" onclick="window.print()">
+    <div class="print-btn">
       <span></span>
       <span></span>
       <span></span>
@@ -38,27 +38,25 @@
     const usageElement = document.getElementById("usage");
     const resultValueElement = document.getElementById("resultValue");
     const tnbCostElement = document.getElementById("tnbCost");
+    const phoneInputElement = document.getElementById("phoneInput");
 
     const memberRate = 0.6363;
     const nonMemberRate = 1;
     const tnbRate = 0.57;
 
-   const phoneNumberList = [
-  "1234567890",
-  "0987654321",
-  "0162081872",
-  "0123614728",
-  "01111276266",
-  "0197978595",
-  "01116429932",
-  "0192831539",
-  "0197978595",
-  "0122809550",
-  "0104397725"
-  // Add more phone numbers here as needed
-];
-
-    const phoneInputElement = document.getElementById("phoneInput");
+    const phoneNumberList = [
+      "1234567890",
+      "0987654321",
+      "0162081872",
+      "0123614728",
+      "01111276266",
+      "0197978595",
+      "01116429932",
+      "0192831539",
+      "0197978595",
+      "0122809550",
+      "0104397725"
+    ];
 
     usageElement.addEventListener("input", updateCost);
     phoneInputElement.addEventListener("input", updateCost);
@@ -80,6 +78,24 @@
       resultValueElement.textContent = cost.toFixed(2);
       tnbCostElement.textContent = tnbCost.toFixed(2);
     }
+
+    document.querySelector(".print-btn").addEventListener("click", function() {
+      const phone = phoneInputElement.value;
+      const usage = usageElement.value;
+      const result = resultValueElement.textContent;
+      const tnb = tnbCostElement.textContent;
+
+      const printWindow = window.open('print.html', '_blank');
+
+      printWindow.onload = function() {
+        const doc = printWindow.document;
+        doc.getElementById('phonePrint').textContent = 'Phone: ' + phone;
+        doc.getElementById('usagePrint').textContent = 'Usage: ' + usage;
+        doc.getElementById('resultPrint').textContent = 'Charge: RM ' + result;
+        doc.getElementById('tnbPrint').textContent = 'Cost by TNB: RM ' + tnb;
+        printWindow.print();
+      };
+    });
   </script>
 </body>
 </html>
