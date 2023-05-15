@@ -79,23 +79,20 @@
       tnbCostElement.textContent = tnbCost.toFixed(2);
     }
 
-    document.querySelector(".print-btn").addEventListener("click", function() {
-      const phone = phoneInputElement.value;
-      const usage = usageElement.value;
-      const result = resultValueElement.textContent;
-      const tnb = tnbCostElement.textContent;
+   document.querySelector(".print-btn").addEventListener("click", function() {
+  const phone = phoneInputElement.value;
+  const result = resultValueElement.textContent;
 
-      const printWindow = window.open('print.html', '_blank');
+  const printWindow = window.open('print.html', '_blank');
 
-      printWindow.onload = function() {
-        const doc = printWindow.document;
-        doc.getElementById('phonePrint').textContent = 'Phone: ' + phone;
-        doc.getElementById('usagePrint').textContent = 'Usage: ' + usage;
-        doc.getElementById('resultPrint').textContent = 'Charge: RM ' + result;
-        doc.getElementById('tnbPrint').textContent = 'Cost by TNB: RM ' + tnb;
-        printWindow.print();
-      };
-    });
+  printWindow.onload = function() {
+    const doc = printWindow.document;
+    doc.getElementById('phonePrint').textContent = 'Phone: ' + phone;
+    doc.getElementById('resultPrint').textContent = 'Charge: RM ' + result;
+    printWindow.print();
+  };
+});
+
   </script>
 </body>
 </html>
