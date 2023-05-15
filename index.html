@@ -82,7 +82,21 @@
     document.querySelector(".print-btn").addEventListener("click", function() {
       const phone = phoneInputElement.value;
       const result = resultValueElement.textContent;
+  
+      // Send data to Google Sheets
+      const url = 'https://script.google.com/macros/s/AKfycbwFDHNfxiJ5kIT4C1ONfq3rieErG-ixAV5P8bAcC4sdp89uLGpQV5tRpnWH-QsS4kIvpA/exec';  // Replace with your web app URL
+      const data = {phone: phone, charge: result};
 
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      // Open print page
       const printWindow = window.open('print.html', '_blank');
 
       printWindow.onload = function() {
@@ -95,3 +109,4 @@
   </script>
 </body>
 </html>
+
